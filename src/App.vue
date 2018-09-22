@@ -21,4 +21,19 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.paginate-links.gifs {
+  margin: 30px auto !important;
+
+}
+
+.paginate-links.gifs a {
+   cursor: pointer;
+   padding: 10px;
+   border: 1px solid #ccc;
+ }
+
+.paginate-links.gifs li.active a {
+  background-color: rgba(74, 118, 255, 0.3);
+}
 </style>
