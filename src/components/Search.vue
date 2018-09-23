@@ -3,22 +3,27 @@
     <div class="search">
       <div class="logo">
         <router-link to="/">
-          <img src="logo.png" alt="logo">
+          <img src="../assets/logo.png" alt="logo">
         </router-link>
       </div>
       <input type="text" placeholder="Search" v-model="searchInput">
     </div>
 
+    <div v-if="gifs[0]">
+      <paginate name="gifs" :list="gifs" :per="12" class="gifs">
 
-    <paginate name="gifs" :list="gifs"  :per="12" class="gifs">
+        <gif v-for="(index, key) in paginated('gifs')" :gif="index" :key="key"></gif>
 
-      <gif v-for="(index, key) in paginated('gifs')" :gif="index" :key="key"></gif>
+      </paginate>
 
-    </paginate>
-
-    <paginate-links v-if="shownPaginate" for="gifs" :limit="2" :show-step-links="true"></paginate-links>
-
-
+      <paginate-links v-if="shownPaginate" for="gifs" :limit="2" :show-step-links="true"></paginate-links>
+    </div>
+    <div v-else>
+      <div v-if="gif404.images" class="error-img-wrapper">
+        <img :src="gif404.images.fixed_width.url" alt="Not_found">
+        <span>Gifs not found</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,19 +44,24 @@
             }
         },
         computed: {
-          gifs() {
-              return this.$store.getters.getGifs
-          }
+            gifs: function() {
+                return this.$store.getters.getGifs
+            },
+            gif404: function() {
+                return this.$store.getters.getRand404
+            }
         },
         methods: {
-          fetchGifs(){
-              const search = this.searchInput;
-              if (search.length > 0) {
-                  this.$store.dispatch('fetchGifs', {
-                      search
-                  })
-              }
-          }
+            fetchGifs(){
+                const search = this.searchInput
+                if (search.length > 0) {
+                    this.$store.dispatch('fetchGifs', {
+                        search
+                    })
+                } else {
+                    this.$store.dispatch('fetchRandomGifs');
+                }
+            }
         },
         watch: {
             searchInput: {
@@ -62,6 +72,7 @@
             }
         },
         mounted: function(){
+            this.$store.dispatch('fetchRandom404');
             this.$store.dispatch('fetchRandomGifs');
         }
     }
@@ -92,8 +103,13 @@
   }
 
   .logo {
-    &:first-child {
-      background-color: royalblue;
+    width: 100px;
+    height: 60px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 
@@ -139,7 +155,28 @@
     a {
       font-size: 22px;
     }
+  }
 
+  .error-img-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    height: 300px;
+    margin: 30px auto;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin-bottom: 30px;
+    }
+
+    span {
+      margin-bottom: 30px;
+      font-size: 22px;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
   }
 
 

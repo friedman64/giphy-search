@@ -4,7 +4,8 @@ import axios from 'axios'
 const state = {
     gifs: [],
     gif:[],
-    api_key: 'eK4mVdwl2CPypbqaHIxaC42cE0MwNJAe'
+    gif404: [],
+    api_key: 'fDCFNb09isTtbm2Ipjk34D7tfI0w2EAC'
 }
 
 const getters = {
@@ -13,6 +14,9 @@ const getters = {
     },
     getGifInfo: state => {
         return state.gif
+    },
+    getRand404: state => {
+        return state.gif404
     }
 }
 
@@ -22,6 +26,9 @@ const mutations = {
     },
     [types.FETCH_GIF](state, { gifInfo }) {
         state.gif = gifInfo;
+    },
+    [types.FETCH_404](state, { gif404 }) {
+        state.gif404 = gif404;
     }
 }
 
@@ -50,6 +57,15 @@ const actions = {
             .then(data => {
                 const gifsList = data.data.data;
                 commit('FETCH_GIFS', {gifsList})
+            })
+            .catch(err => console.log(err));
+    },
+    fetchRandom404({commit}) {
+
+        axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${state.api_key}&tag=404`)
+            .then(data => {
+                const gif404 = data.data.data;
+                commit('FETCH_404', {gif404})
             })
             .catch(err => console.log(err));
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="gif">
         <router-link :to="'/gif'+'?id='+gif.id">
-            <img class="gif__image" :src="gif.images.fixed_width.url" alt="gif">
+            <img class="gif__image" :src="gif.images.fixed_width_small.url" alt="gif">
         </router-link>
     </div>
 </template>
@@ -19,7 +19,7 @@
             }
         },
         created() {
-            $('.gif').fadeIn();
+         //   $('.gif').fadeIn();
         }
     }
 </script>
@@ -27,7 +27,7 @@
 <style lang="scss" scoped>
 
     .gif {
-        display: none;
+       // display: none;
         width: 25%;
         height: 200px;
         padding: 15px;

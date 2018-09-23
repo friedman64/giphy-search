@@ -4,6 +4,9 @@
             <div v-if="gifInfo.images" class="gif-wrapper">
                 <img :src="gifInfo.images.original.url" alt="gif">
             </div>
+            <div v-else>
+                Something get wrong...
+            </div>
             <div v-if="gifInfo.username" class="user">
                 <a :href="gifInfo.user.profile_url" target="_blank">
                     <img :src="gifInfo.user.avatar_url" class="user__avatar" alt="avatar">
@@ -11,7 +14,7 @@
                 </a>
 
             </div>
-            <div class="user" v-else >
+            <div class="user" v-else-if="gifInfo" >
                 No information about user...
             </div>
 
@@ -23,7 +26,6 @@
 <script>
     export default {
         name: 'SGPage',
-
         computed: {
           gifInfo(){
               return this.$store.getters.getGifInfo
@@ -85,7 +87,7 @@
 
     .button--back {
         max-width: 200px;
-        margin: 0 auto 30px;
+        margin: 30px auto 30px;
         border: 1px solid #ccc;
         border-radius: 4px;
 
