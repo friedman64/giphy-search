@@ -5,7 +5,7 @@ const state = {
     gifs: [],
     gif:[],
     gif404: [],
-    api_key: 'fDCFNb09isTtbm2Ipjk34D7tfI0w2EAC'
+    api_key: 'LqCjHlDbUJhNGcLeTRTDf3SybQGPBam6'
 }
 
 const getters = {
@@ -34,7 +34,7 @@ const mutations = {
 
 const actions = {
     fetchGifs({commit}, { search }) {
-        axios.get(`http://api.giphy.com/v1/gifs/search?q=${search}&api_key=${state.api_key}`)
+        axios.get(`https://api.giphy.com/v1/gifs/search?q=${search}&api_key=${state.api_key}`)
             .then(data => {
                 const gifsList = data.data.data;
                 commit('FETCH_GIFS', {gifsList})
@@ -42,7 +42,7 @@ const actions = {
             .catch(err => console.log(err))
     },
     fetchGifInfo({commit}, {id}) {
-        axios.get(`http://api.giphy.com/v1/gifs/${id}?api_key=${state.api_key}`)
+        axios.get(`https://api.giphy.com/v1/gifs/${id}?api_key=${state.api_key}`)
             .then(data => {
                 const gifInfo = data.data.data;
                 commit('FETCH_GIF', {gifInfo})
@@ -53,7 +53,7 @@ const actions = {
         let randOffset;
         function randOff(){randOffset = Math.floor(Math.random() * (3000 - 1 + 1)) + 1};
         randOff();
-        axios.get(`http://api.giphy.com/v1/gifs/trending?api_key=${state.api_key}&offset=${randOffset}&limit=12`)
+        axios.get(`https://api.giphy.com/v1/gifs/trending?api_key=${state.api_key}&offset=${randOffset}&limit=12`)
             .then(data => {
                 const gifsList = data.data.data;
                 commit('FETCH_GIFS', {gifsList})
@@ -62,7 +62,7 @@ const actions = {
     },
     fetchRandom404({commit}) {
 
-        axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${state.api_key}&tag=404`)
+        axios.get(`https://api.giphy.com/v1/gifs/random?api_key=${state.api_key}&tag=404`)
             .then(data => {
                 const gif404 = data.data.data;
                 commit('FETCH_404', {gif404})
